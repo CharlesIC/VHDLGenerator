@@ -1,0 +1,9 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix}Final Year Project of Karol Gancarz
+${licensePrefix}BEng EIE at Imperial College London
+${licensePrefix}May 2014
+<#if licenseLast??>
+${licenseLast}
+</#if>
