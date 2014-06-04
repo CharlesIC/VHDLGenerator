@@ -10,6 +10,9 @@ package vhdlgenerator;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class VHDLGenerator {
     
@@ -17,6 +20,35 @@ public class VHDLGenerator {
     private static int r;                       // radix
     private static int n;                       // precision
     private static DigitSet D;                  // digit set
+    private static Operation op;
+    
+    public static List<Character> operators = Arrays.asList('+', '-', '*', '/');
+    
+    private enum Operation {
+        ADD   ('+', "addition"),
+        SUB   ('-', "subtraction"),
+        MULT  ('*', "multiplication"),
+        DIV   ('/', "division"),
+        UNDEF (' ', "undefined");
+        
+        char operator;
+        String name;
+        
+        Operation (char op, String name) {
+            this.operator = op;
+            this.name = name;
+        }
+        
+        public static Operation set (char op) {
+            switch (op) {
+                case '+': return ADD;
+                case '-': return SUB;
+                case '*': return MULT;
+                case '/': return DIV;
+                default : return UNDEF;
+            }
+        }
+    }
     
     private static void interactiveMode() {
         printPrompt();
@@ -26,6 +58,10 @@ public class VHDLGenerator {
         printPrompt();
         System.out.println("Enter precision (n >= 1) :");
         n = getInteger();
+        
+        printPrompt();
+        System.out.println("Enter operation ( + | - | * | / ) :");
+        op = Operation.set(getOperator());
     }
     
     private static void printPrompt() {
@@ -69,13 +105,34 @@ public class VHDLGenerator {
         
         return result;
     }
+    
+    private static Character getOperator() {
+        boolean obtained = false;
+        Character result = ' ';
+        
+        while (!obtained) {
+            String input = getInput();
+            if (input.length() == 1) {
+                result = input.charAt(0);
+            }
+            
+            obtained = operators.contains(result);
+            
+            if (!obtained) {
+                printPrompt();
+                System.out.println("Try again: ");
+            }
+        }
+        
+        return result;
+    }
 
     public static void main(String[] args) {
         
         if (args.length == 0)
             interactiveMode();
-        else if (args.length != 2) {
-            System.out.println("Usage: VHDLGenerator <radix> <precision>\n");
+        else if (args.length != 3) {
+            System.out.println("Usage: VHDLGenerator <radix> <precision> <operation>\n");
             return;
         }
         else {
@@ -90,17 +147,31 @@ public class VHDLGenerator {
         
         // Check correct values for r and n
         if (r < 4) {
+            printPrompt();
             System.out.println("Radix has to be greater than or equal to 4\n");
-            return;
+            System.exit(-1);
         } else if (n < 1) {
+            printPrompt();
             System.out.println("Precision has to be at least 1\n");
-            return;
+            System.exit(-1);
         }
         
+        // Check for correct operator
+        if (args[2].length() != 1 || !operators.contains(args[2].charAt(0))) {
+            printPrompt();
+            System.out.println("Incorrect operator. Please choose from: +, -, *, / \n");
+            System.exit(-1);
+        } else {
+            op = Operation.set(args[2].charAt(0));
+        }
+        
+        // Print parameters
         D = new DigitSet(r);
         printPrompt();
         System.out.printf("Your radix is %d, precision is %d and your digit set is %n%s%s%n",
                 r, n, PROMPT, D);
+        printPrompt();
+        System.out.printf("The operation to be performed is %s.%n", op.name);
         
         System.out.println();
     }
