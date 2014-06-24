@@ -18,11 +18,13 @@ public class DigitSet {
     private final List<Integer> digits;
     public final int size;
     public final int a;
+    public final int c;                         // Bits per digit
     
     public DigitSet (int r) {
         a = r - 1;
         size = 2*r - 1;
         digits = new ArrayList<>(size);
+        c = (int) Math.ceil(Math.log(size)/Math.log(2));
         
         for (int i = -a; i <= a; i++)
             digits.add(i);

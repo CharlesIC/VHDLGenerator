@@ -27,7 +27,8 @@ public class Adder implements Module {
         this.r = r;
         this.D = D;
         this.a = D.a;                           // extracted for convenience
-        c = (int) Math.ceil(Math.log(D.size)/Math.log(2));
+        this.c = D.c;
+        //c = (int) Math.ceil(Math.log(D.size)/Math.log(2));
         this.name = "online_adder_r" + Integer.toString(r);
         filename = name + ".v";
         

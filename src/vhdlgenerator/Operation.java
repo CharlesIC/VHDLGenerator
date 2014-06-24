@@ -8,18 +8,20 @@ package vhdlgenerator;
 
 public enum Operation {
 
-    ADD('+', "addition"),
-    SUB('-', "subtraction"),
-    MULT('*', "multiplication"),
-    DIV('/', "division"),
-    UNDEF(' ', "undefined");
+    ADD('+', "addition", "add"),
+    SUB('-', "subtraction", "sub"),
+    MULT('*', "multiplication", "mux"),
+    DIV('/', "division", "div"),
+    UNDEF(' ', "undefined", "udef");
 
     char operator;
     String name;
+    String shortName;
 
-    Operation(char op, String name) {
+    Operation(char op, String name, String shortName) {
         this.operator = op;
         this.name = name;
+        this.shortName = shortName;
     }
 
     public static Operation set(char op) {

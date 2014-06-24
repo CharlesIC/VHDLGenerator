@@ -149,6 +149,10 @@ public class VHDLGenerator {
         
         System.out.println(System.getProperty("user.dir"));
         add.generate();
+        
+        // Generate an add_tester
+        Tester addTest = new Tester(r, n, D, 10, op);
+        addTest.generate();
     }
     
 }
