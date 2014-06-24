@@ -17,19 +17,31 @@ public class Adder implements Module {
     private final int a;                        // D = {-a, ..., a}
     private final int c;                        // bits per digit
     private final DigitSet D; 
-    private final String name;  
+    private String name;  
     private final String filename;              // Verilog file to be written to
+    private Operation op = Operation.ADD;
     
     // Values of different variables for the generator
     private final Map<String, String> fields = new HashMap<>();
     
-    public Adder(int r, DigitSet D) {
+    public Adder(int r, DigitSet D, Operation op) {
         this.r = r;
         this.D = D;
         this.a = D.a;                           // extracted for convenience
         this.c = D.c;
-        //c = (int) Math.ceil(Math.log(D.size)/Math.log(2));
-        this.name = "online_adder_r" + Integer.toString(r);
+        this.op = op;
+        
+        // Set component name
+        this.name = "online";
+        if (op == Operation.ADD)
+            this.name += "_adder";
+        else if (op == Operation.SUB)
+            this.name += "_sub";
+        else
+            System.exit(-1);
+        this.name += "_r" + Integer.toString(r);
+        
+        name = "online_" + op.shortName + "_r" + r;
         filename = name + ".v";
         
         fields.put("r", Integer.toString(r));
@@ -111,7 +123,16 @@ public class Adder implements Module {
                 + "			end\n"
                 + "		else if (en)\n"
                 + "			begin\n"
-                + "				TW(xi, yi, t, w);\n"
+                + "");
+        
+        if (op == Operation.ADD)
+            schema.add("				TW(xi, yi, t, w);\n");
+        else if (op == Operation.SUB)
+            schema.add("				TW(xi, -yi, t, w);\n");
+        else
+            System.exit(-1);
+                        
+        schema.add(""
                 + "				SUM(t, w, zi);\n"
                 + "			end\n"
                 + "	end"

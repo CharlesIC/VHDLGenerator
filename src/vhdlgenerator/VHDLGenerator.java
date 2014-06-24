@@ -145,7 +145,7 @@ public class VHDLGenerator {
         
         // Generate an adder
         //DigitSet D = new DigitSet(r);
-        Adder add = new Adder(r, D);
+        Adder add = new Adder(r, D, op);
         
         System.out.println(System.getProperty("user.dir"));
         add.generate();

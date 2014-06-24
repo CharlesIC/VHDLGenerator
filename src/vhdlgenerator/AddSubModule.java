@@ -39,8 +39,14 @@ public class AddSubModule {
             // Step 1: Calculate T and W
             w = w_latch;
             
-            if (i < n)
-                w_latch = x[i] + y[i];
+            if (i < n) {
+                if (op == Operation.ADD)
+                    w_latch = x[i] + y[i];
+                else if (op == Operation.SUB)
+                    w_latch = x[i] - y[i];
+                else
+                    System.exit(-1);
+            }
             else
                 w_latch = 0;
             
@@ -56,9 +62,7 @@ public class AddSubModule {
                 t = 0;
             
             // Step 2: Calculate zi
-            if (i == 0)
-                z[i] = 0;
-            else
+            if (i < z.length)
                 z[i] = t + w;
         }
         

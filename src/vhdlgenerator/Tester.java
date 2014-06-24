@@ -60,6 +60,7 @@ public class Tester implements Module {
         List<String> schema = new ArrayList<>();
         
         fields.put("selSize", Integer.toString((int) Math.ceil(Math.log(numTests)/Math.log(2))));
+        fields.put("selU", Integer.toString(Integer.parseInt(fields.get("selSize")) - 1));
         fields.put("inU", Integer.toString(n*c-1));
         fields.put("inL", "0");
         fields.put("outU", Integer.toString((n+1)*c-1));
@@ -67,7 +68,7 @@ public class Tester implements Module {
         
         schema.add( "module $name (" );
         
-        schema.add( "   input       [$selSize:0] testSelect," );
+        schema.add( "   input       [$selU:0] testSelect," );
         
         schema.add( "   output reg\t[$inU:$inL] x," );
         schema.add( "\t\t\t\t// First number to add" );
@@ -75,7 +76,7 @@ public class Tester implements Module {
         schema.add( "   output reg\t[$inU:$inL] y," );
         schema.add( "\t\t\t\t// Second number to add" );
         
-        schema.add( "   output reg\t[$outU:$outL] z," );
+        schema.add( "   output reg\t[$outU:$outL] z" );
         schema.add( "\t\t\t\t// Correct result" );
         
         schema.add( ");" );
@@ -107,8 +108,8 @@ public class Tester implements Module {
             
             schema.add("        $selSize'd" + i + ":");
             schema.add("            begin");
-            schema.add("                x = " + xyz[0] + ";");
-            schema.add("                y = " + xyz[1] + ";");
+            schema.add("                x =       " + xyz[0] + ";");
+            schema.add("                y =       " + xyz[1] + ";");
             schema.add("                z = " + xyz[2] + ";");
             schema.add("            end");
             schema.add("");
