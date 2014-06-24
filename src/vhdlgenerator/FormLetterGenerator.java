@@ -38,9 +38,17 @@ public class FormLetterGenerator {
                 char c = line.charAt(i);
                 
                 if (c == '$') {
-                    int nextSpace = line.indexOf(' ', i+1);
-                    String key = line.substring(i+1, nextSpace);
-                    i = nextSpace - 1;
+                    int stopIndex = i + 1;
+                    while (Character.isLetterOrDigit(line.charAt(stopIndex))) {
+                        stopIndex++;
+                    }
+                    
+                    String key = line.substring(i+1, stopIndex);
+                    i = stopIndex - 1;
+                    
+//                    int nextSpace = line.indexOf(' ', i+1);
+//                    String key = line.substring(i+1, nextSpace);
+//                    i = nextSpace - 1;
                     
                     codeLine += fields.get(key);
                 }
@@ -51,6 +59,8 @@ public class FormLetterGenerator {
             // Print line to file
             writeVrilog(codeLine, filename);
         }
+        
+        writeVrilog("\n", filename);
     }
 
     private static void writeVrilog(String schema, String filename) {
