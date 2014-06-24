@@ -13,27 +13,32 @@ import java.util.Map;
 
 public class Tester implements Module {
     
-    private int r;                      // radix
-    private int n;                      // precision (no. of digits)
-    private int c;                      // bits per digit
-    private int a;                      // D = {-a, ..., a}
-    private int numTests;               // number of tests
-    private DigitSet D;
-    private Operation op;
-    private String name;
-    private String filename;
+    private final int r;                      // radix
+    private final int n;                      // precision (no. of digits)
+    private final int c;                      // bits per digit
+    private final int a;                      // D = {-a, ..., a}
+    private final int numTests;               // number of tests
+    //private final DigitSet D;
+    private final Operation op;
+    private final String name;
+    private final String filename;
     
     // Values of different variables for the generator
     private final Map<String, String> fields = new HashMap<>();
     
+    // Arithmetic module
+    AddSubModule addSub;
+    
     public Tester(int r, int n, DigitSet D, int numTests, Operation op) {
         this.r = r;
         this.n = n;
-        this.D = D;
+        //this.D = D;
         this.c = D.c;
         this.a = D.a;
         this.op = op;
         this.numTests = numTests;
+        
+        addSub = new AddSubModule(r, n, a, op);
         
         name = op.shortName + "_tester_r" + r + "_n" + n;
         filename = name + ".v";
@@ -128,7 +133,7 @@ public class Tester implements Module {
         
         int[] x = randomNumber(min, max);
         int[] y = randomNumber(min, max);
-        int[] z = randomNumber(min, max);
+        int[] z = addSub.result(x, y);
         
         // Generate x
         xyz[0] = generateNumberString(x);
@@ -137,8 +142,7 @@ public class Tester implements Module {
         xyz[1] = generateNumberString(y);
         
         // Generate z
-        // --> adder :O
-        xyz[2] = "";
+        xyz[2] = generateNumberString(z);
         
         return xyz;
     }
