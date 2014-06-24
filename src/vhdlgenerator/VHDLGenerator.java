@@ -11,7 +11,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class VHDLGenerator {
@@ -23,32 +22,6 @@ public class VHDLGenerator {
     private static Operation op;
     
     public static List<Character> operators = Arrays.asList('+', '-', '*', '/');
-    
-    private enum Operation {
-        ADD   ('+', "addition"),
-        SUB   ('-', "subtraction"),
-        MULT  ('*', "multiplication"),
-        DIV   ('/', "division"),
-        UNDEF (' ', "undefined");
-        
-        char operator;
-        String name;
-        
-        Operation (char op, String name) {
-            this.operator = op;
-            this.name = name;
-        }
-        
-        public static Operation set (char op) {
-            switch (op) {
-                case '+': return ADD;
-                case '-': return SUB;
-                case '*': return MULT;
-                case '/': return DIV;
-                default : return UNDEF;
-            }
-        }
-    }
     
     private static void interactiveMode() {
         printPrompt();
@@ -76,11 +49,6 @@ public class VHDLGenerator {
             BufferedReader reader = new BufferedReader(consoleReader);
             
             input = reader.readLine();
-            
-            /* You don't want to close the standard input stream.... */
-//            try (BufferedReader reader = new BufferedReader(consoleReader)) {
-//                input = reader.readLine();
-//            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

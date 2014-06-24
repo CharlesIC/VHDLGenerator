@@ -37,6 +37,7 @@ public class Adder implements Module {
         fields.put("name", name);
     }
     
+    @Override
     public void generate() {
         generateModuleDeclaration();
         generateRegsParams();
