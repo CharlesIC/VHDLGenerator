@@ -129,13 +129,12 @@ public class VHDLGenerator {
 
     public static void main(String[] args) {
         
-        if (args.length == 0)
+        if (args.length == 0) {
             interactiveMode();
-        else if (args.length != 3) {
+        } else if (args.length != 3) {
             System.out.println("Usage: VHDLGenerator <radix> <precision> <operation>\n");
             return;
-        }
-        else {
+        } else {
             try {
                 r = Integer.parseInt(args[0]);
                 n = Integer.parseInt(args[1]);
@@ -143,8 +142,17 @@ public class VHDLGenerator {
                 System.out.println("Invalid value for radix or precision\n");
                 return;
             }
+            
+            // Check for correct operator
+            if (args[2].length() != 1 || !operators.contains(args[2].charAt(0))) {
+                printPrompt();
+                System.out.println("Incorrect operator. Please choose from: +, -, *, / \n");
+                System.exit(-1);
+            } else {
+                op = Operation.set(args[2].charAt(0));
+            }
         }
-        
+
         // Check correct values for r and n
         if (r < 4) {
             printPrompt();
@@ -156,15 +164,6 @@ public class VHDLGenerator {
             System.exit(-1);
         }
         
-        // Check for correct operator
-        if (args[2].length() != 1 || !operators.contains(args[2].charAt(0))) {
-            printPrompt();
-            System.out.println("Incorrect operator. Please choose from: +, -, *, / \n");
-            System.exit(-1);
-        } else {
-            op = Operation.set(args[2].charAt(0));
-        }
-        
         // Print parameters
         D = new DigitSet(r);
         printPrompt();
@@ -174,6 +173,14 @@ public class VHDLGenerator {
         System.out.printf("The operation to be performed is %s.%n", op.name);
         
         System.out.println();
+        
+        
+        // Generate an adder
+        //DigitSet D = new DigitSet(r);
+        Adder add = new Adder(r, D);
+        
+        System.out.println(System.getProperty("user.dir"));
+        add.generate();
     }
     
 }

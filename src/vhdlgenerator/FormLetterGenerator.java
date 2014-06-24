@@ -26,12 +26,18 @@ public class FormLetterGenerator {
             line = it.next();
             String codeLine = "";
 
-            comment = line.startsWith("\t") || line.startsWith("//");
+            //comment = line.startsWith("\t") || line.startsWith("//");
             
             // If this is a comment, print it on the same line
             if (!comment) {
                 codeLine += '\n';
             }
+            
+            if (it.hasNext())
+                comment = schema.get(it.nextIndex()).startsWith("\t") ||
+                          schema.get(it.nextIndex()).startsWith("//");
+            else
+                comment = false;
             
             // Examine every character in the line
             for (int i = 0; i < line.length(); i++) {
@@ -41,6 +47,8 @@ public class FormLetterGenerator {
                     int stopIndex = i + 1;
                     while (Character.isLetterOrDigit(line.charAt(stopIndex))) {
                         stopIndex++;
+                        if (stopIndex == line.length())
+                            break;
                     }
                     
                     String key = line.substring(i+1, stopIndex);
@@ -63,7 +71,7 @@ public class FormLetterGenerator {
         writeVrilog("\n", filename);
     }
 
-    private static void writeVrilog(String schema, String filename) {
+    public static void writeVrilog(String schema, String filename) {
         try {
             FileWriter file = new FileWriter(filename, true);
             try (BufferedWriter writer = new BufferedWriter(file)) {
