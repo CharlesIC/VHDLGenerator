@@ -94,9 +94,20 @@ public class Simulator implements Module {
     }
     
     private void generateRegsParams() {
+        
+        
         List<String> schema = new ArrayList<>();
         
-        fields.put("digitU", Integer.toString(c-1));
+        schema.add(""
+                + "wire signed [$digitU:$l] $zi;                          // Single digit of the result\n"
+                + "reg  signed [$digitU:$l] $xi, $yi;                      // Single digits of the operands\n"
+                + "reg  signed [$resultU:$l] result;   "
+                + "");
+        
+        FormLetterGenerator.generateCode(schema, fields, filename);
+        
+        
+        fields.put("digitU", Integer.toString(c-1));       
         fields.put("resultU", Integer.toString(cycles*c-1));
         fields.put("opU", Integer.toString(n*c-1));
         fields.put("expU", Integer.toString((n+1)*c-1));
