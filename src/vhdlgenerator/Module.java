@@ -9,5 +9,6 @@ package vhdlgenerator;
 public interface Module {
     
     public void generate();
+    public String initialise();
     
 }

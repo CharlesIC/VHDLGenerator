@@ -4,9 +4,12 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Charles/Documents/GitHub/VHDLGenerator/src/vhdlgenerator/AddSubModule.java</file>
+            <file>file:/C:/Users/Charles/Documents/GitHub/VHDLGenerator/src/vhdlgenerator/Module.java</file>
+            <file>file:/C:/Users/Charles/Documents/GitHub/VHDLGenerator/src/vhdlgenerator/DigitSet.java</file>
+            <file>file:/C:/Users/Charles/Documents/GitHub/VHDLGenerator/src/vhdlgenerator/Simulator.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/VHDLGenerator/src/vhdlgenerator/VHDLGenerator.java</file>
-            <file>file:/C:/Users/Charles/Documents/GitHub/VHDLGenerator/src/vhdlgenerator/Adder.java</file>
             <file>file:/C:/Users/Charles/Documents/GitHub/VHDLGenerator/src/vhdlgenerator/Tester.java</file>
+            <file>file:/C:/Users/Charles/Documents/GitHub/VHDLGenerator/src/vhdlgenerator/Adder.java</file>
         </group>
     </open-files>
 </project-private>

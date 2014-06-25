@@ -153,6 +153,10 @@ public class VHDLGenerator {
         // Generate an add_tester
         Tester addTest = new Tester(r, n, D, 10, op);
         addTest.generate();
+        
+        // Generate a simulator
+        Simulator sim = new Simulator(r, n, 10, op);
+        sim.generate();
     }
     
 }

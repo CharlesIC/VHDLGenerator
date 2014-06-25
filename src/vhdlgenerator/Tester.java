@@ -18,9 +18,8 @@ public class Tester implements Module {
     private final int c;                      // bits per digit
     private final int a;                      // D = {-a, ..., a}
     private final int numTests;               // number of tests
-    //private final DigitSet D;
     private final Operation op;
-    private final String name;
+    public final String name;
     private final String filename;
     
     // Values of different variables for the generator
@@ -54,6 +53,22 @@ public class Tester implements Module {
         generateModuleDeclaration();
         generateCircuit();
         generateEndmodule();
+    }
+    
+    @Override
+    public String initialise() {
+        String init;
+        
+        init = ""
+                + "$testerName tester(\n"
+                + "	.testSelect($testNo),\n"
+                + "	.x($x),\n"
+                + "	.y($y),\n"
+                + "	.z($expected)\n"
+                + ");\n"
+                + "";
+        
+        return init;
     }
     
     private void generateModuleDeclaration() {

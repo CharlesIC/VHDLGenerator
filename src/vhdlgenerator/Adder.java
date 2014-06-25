@@ -17,7 +17,7 @@ public class Adder implements Module {
     private final int a;                        // D = {-a, ..., a}
     private final int c;                        // bits per digit
     private final DigitSet D; 
-    private String name;  
+    public final String name;  
     private final String filename;              // Verilog file to be written to
     private Operation op = Operation.ADD;
     
@@ -32,15 +32,6 @@ public class Adder implements Module {
         this.op = op;
         
         // Set component name
-        this.name = "online";
-        if (op == Operation.ADD)
-            this.name += "_adder";
-        else if (op == Operation.SUB)
-            this.name += "_sub";
-        else
-            System.exit(-1);
-        this.name += "_r" + Integer.toString(r);
-        
         name = "online_" + op.shortName + "_r" + r;
         filename = name + ".v";
         
@@ -57,6 +48,32 @@ public class Adder implements Module {
         generateCircuit();
         generateTasks();
         generateEndmodule();
+    }
+    
+    @Override
+    public String initialise() {
+        String init;
+        
+        init =    ""
+                + "//*********************************\n"
+                + "// 	Adder UUT (Unit Under Test)\n"
+                + "//*********************************\n"
+                + "";
+        
+        init +=   ""
+                + "$addName uut(\n"
+                + "	.clk($addClk),\n"
+                + "	.reset($addReset),\n"
+                + "	.en($addEn),\n"
+                + "	.xi($xi),\n"
+                + "	.yi($yi),\n"
+                + "	.zi($zi)\n"
+                + ");"
+                + "";
+        
+        init += "\n";
+        
+        return init;
     }
     
     private void generateModuleDeclaration() {
